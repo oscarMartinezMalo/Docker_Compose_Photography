@@ -1,0 +1,53 @@
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-evenly center" class="margin-container component-container"
+  fxLayoutGap="10px">
+  <mat-card class="card-form">
+    <mat-toolbar color="primary" style="margin-bottom: 20px;" fxLayout="row" fxLayoutAlign="center center">
+      <span *ngIf="idUrlparameter; else loading">Edit Picture</span>
+      <ng-template #loading>Add Picture</ng-template>
+    </mat-toolbar>
+
+    <form class="example-form" [formGroup]="pictureForm" (ngSubmit)="onSubmit()" fxLayout="column"
+      fxLayoutAlign="center center">
+      <mat-form-field class="example-full-width">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" placeholder="Title" formControlName="title">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label> Image Url</mat-label>
+        <textarea matInput placeholder="imageUrl" formControlName="imageUrl"></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Genre</mat-label>
+        <input matInput placeholder="Genre" formControlName="genre">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Author</mat-label>
+        <mat-select formControlName="authorId">
+          <mat-option *ngFor="let author of (authors$ | async)" [value]="author._id">
+            {{author.name}} {{ author.lastName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-card-actions   fxLayout="row" fxLayoutAlign="space-between center">
+        <button type="button" mat-stroked-button color="primary" (click)="onClear()"> Clear</button>
+
+        <div>
+          <button type="button" mat-stroked-button color="primary" (click)="openDialog()">Author</button>
+          <button type="submit" mat-raised-button color="accent" [disabled]="!pictureForm.valid"
+            style="margin-right: 0px;">
+            <span *ngIf="idUrlparameter; else loading">Edit Picture</span>
+            <ng-template #loading>Add Picture</ng-template>
+          </button>
+        </div>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+  <!-- <app-author-form style="margin: 5px;"></app-author-form> -->
+  <app-picture-card [picture]=" this.pictureForm.value" [author]="author" [showEditSection]="false"></app-picture-card>
+
+</div>

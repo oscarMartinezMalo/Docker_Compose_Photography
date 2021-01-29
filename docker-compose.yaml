@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+    backend-graphql:
+        build: ./graphql-express
+        ports: 
+            - '3000:3000'
+        volumes:
+            - ./graphql-express:/app
+            - /app/node_modules
+        env_file: 
+            - ./env/backend.env
+        # depends_on: 
+        #   - mongodbImage
+    frontend:
+        build: ./graphql-angular
+        ports: 
+            - '4200:4200'
+        volumes: 
+            - ./graphql-angular/src:/app/src
+        stdin_open: true
+        tty: true
+        depends_on: 
+            - backend-graphql
+# volumes: 
